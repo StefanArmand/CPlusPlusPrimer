@@ -30,10 +30,15 @@ ostream &print(ostream &os, const Sales_data &item) {
 
 int main()
 {
-	Sales_data total;
-	if (read(cin, total)) {
-		Sales_data trans;
-		while (read( cin, trans)) {
+	//exercise 7.11
+	Sales_data d1;
+	Sales_data d2("5432534gfd");
+	Sales_data d3("5432534gfd", 5, 2.5);
+	Sales_data d4(cin);
+	Sales_data total (cin);
+	if (cin) {
+		Sales_data trans (cin);
+		while (cin) {
 			//Sales_data sum;
 			if (total.bookNo == trans.bookNo) {
 				total.combine(trans);
@@ -42,6 +47,7 @@ int main()
 				print(cout, total);
 				total = trans;
 			}
+			read(cin, trans);
 		}
 	}
 	else {
