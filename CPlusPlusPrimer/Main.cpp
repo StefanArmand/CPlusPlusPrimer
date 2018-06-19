@@ -4,28 +4,42 @@
 
 using namespace std;
 
+Sales_data add(const Sales_data &lhs, const Sales_data &rhs) {
+	Sales_data sum = lhs;
+	&sum.combine(rhs);
+	return sum;
+}
+
 Sales_data& Sales_data::combine(const Sales_data &rhs) {
 	units_sold += rhs.units_sold;
 	revenue += rhs.revenue;
 	return *this;
 }
 
+istream & read(istream &is, Sales_data &item) {
+	double price = 0;
+	is >> item.bookNo >> item.units_sold >> price;
+	item.revenue = price * item.units_sold;
+	return is;
+}
+
+ostream &print(ostream &os, const Sales_data &item) {
+	os << item.isbn() << " " << item.units_sold << " " << item.revenue << endl;
+	return os;
+}
+
 int main()
 {
 	Sales_data total;
-	if (cin >> total.bookNo >> total.units_sold) {
+	if (read(cin, total)) {
 		Sales_data trans;
-		int totalrev = 0;
-		while (cin >> trans.bookNo >> trans.units_sold) {
+		while (read( cin, trans)) {
+			//Sales_data sum;
 			if (total.bookNo == trans.bookNo) {
-				int totnumbsold = (total.revenue * total.units_sold);
-				totnumbsold += trans.revenue * trans.units_sold;
-				totalrev += totnumbsold;
 				total.combine(trans);
 			}
 			else {
-				cout << "Revenue: " << totalrev << endl;
-				cout << "Units sold: "<<total.units_sold << endl;
+				print(cout, total);
 				total = trans;
 			}
 		}
